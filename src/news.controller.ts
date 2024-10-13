@@ -17,6 +17,22 @@ export class NewsController {
     return this.newsService.reIndex();
   }
 
+  @Get('re-index-elasticsearch')
+  reIndexElasticsearch() {
+    return this.newsService.reIndexToElasticsearch();
+  }
+
+  @Get('search')
+  @ApiQuery({ name: 'q', required: true, type: String })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
+  async search(
+    @Query('q') query: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+  ) {
+    return this.newsService.search(query, page, limit);
+  }
   @Get('run-seed')
   @ApiQuery({
     name: 'maxRecords',
